@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
 import React from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../navigator/StackNavigator';
@@ -37,8 +37,11 @@ const DetailScreen = ({route}: Props) => {
         </Animated.View>
       </View>
       <Animated.View entering={FadeInDown.delay(800)}>
+        <ScrollView>
+
         <Text style={styles.textAbout}>Description</Text>
         <Text style={styles.text}>{item.description}</Text>
+        </ScrollView>
       </Animated.View>
     </View>
     {/* <Button /> */}

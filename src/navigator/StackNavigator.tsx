@@ -12,7 +12,7 @@ export type RootStackParamList={
 const StackNavigator : React.FC = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();
   return (
-    <Stack.Navigator  initialRouteName="Splash" >
+    <Stack.Navigator  initialRouteName="Home" >
       <Stack.Screen
         name="Splash" //nombre para reconocer a este componente stack
         component={Splash} //componente que renderiza este componente stack
