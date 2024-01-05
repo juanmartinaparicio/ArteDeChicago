@@ -1,4 +1,6 @@
-const API_URL = 'https://api.artic.edu/api/v1/artworks /6010';
+import { api } from '../services/api';
+
+const API_URL = api;
 
 export default async(urlParams?:string)=>{
     try {

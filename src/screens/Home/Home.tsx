@@ -1,39 +1,85 @@
-import { StyleSheet, View} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import Header from '../../components/Header/Header';
+import {
+  Button,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import Header from '../../components/HeaderHome/Header';
 import fetch from '../../utils/fetch';
-import PrincipalCard from '../../components/PrincipalCard';
-import { PostArt } from '../../types';
+import {api} from '../../services/api';
+import RenderItem from '../../components/RenderItem';
+import colors from '../../theme/colors';
+/* import PrincipalCard from '../../components/PrincipalCard';
+import { PostArt } from '../../types'; */
 
-const Home = () => {
-  const [page, setPage] = useState<PostArt>();
+type Artwork = {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+};
+
+const Home: React.FC<{navigation: any}> = ({navigation}) => {
+  const [artworks, setArtworks] = useState<Artwork[]>([]);
+
+  // Fetch artworks from the Art Institute of Chicago API
   useEffect(() => {
-    const loadPage = async ()=>{
+    const loadArtworks = async () => {
       try {
-        const data = await fetch();
-        setPage(data.data);
+        const artworkResponse = await fetch(api);
+        setArtworks(artworkResponse.data);
       } catch (error) {
-        console.log(error);
-        setPage(undefined);
+        console.error('Error fetching artworks:', error);
+        //setArtworks(undefined);
       }
     };
-    loadPage().catch(null);
-  },[]);
+    loadArtworks();
+  }, []);
 
-  console.log(page);
+  console.log(JSON.stringify(artworks, null, 4));
+
+  // Render individual art card
+  /* const renderArtCard = ({ item }: { item: Artwork }) => (
+    <TouchableOpacity onPress={() => navigation.navigate('ArtDetails', { artwork: item })}>
+      <View>
+        <Image source={{ uri: item.imageUrl }} style={{ width: 100, height: 100 }} />
+        <Text>{item.title}</Text>
+        <Text>{item.description}</Text>
+      </View>
+    </TouchableOpacity>
+  ); */
 
   return (
     <View style={styles.container}>
-      <Header/>
-      <PrincipalCard {...page}/>
+      <View>
+        <Header />
+        <View>
+          <FlatList
+            data={artworks}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item, index }) => {
+              return <RenderItem item={item} index={index} />;
+            }}
+          />
+        </View>
+        {/* <PrincipalCard {...page}/> */}
+        <Button
+          title="Go to Details"
+          onPress={() => navigation.navigate('Splash')}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
-    paddingHorizontal:16,
+    paddingHorizontal: 16,
+    backgroundColor: colors.colorC,
   },
 });
 

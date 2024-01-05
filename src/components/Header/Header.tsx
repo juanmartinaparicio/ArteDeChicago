@@ -1,53 +1,52 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import {Image, Pressable, StyleSheet} from 'react-native';
 import React from 'react';
-//import font from '../theme/fonts';
-import colors from '../../theme/colors';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Animated, {FadeIn} from 'react-native-reanimated';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../navigator/StackNavigator';
 
 const Header = () => {
+  const inset = useSafeAreaInsets();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
-    <View style={styles.container}>
-        <View style={styles.leftContainer}>
-      <Text style={styles.title}>ART INSTITUTE</Text>
-
-        </View>
-        <View style={styles.rigthContainer}>
-      <Image
-        source = {require('../../assets/logo.png')}
-        style = {styles.image}
-      />
-
-        </View>
-    </View>
+    <Animated.View
+      // style={[styles.container, {top: Platform.OS === 'ios' ? inset.top : 20}]}
+      style={[styles.container, {top: inset.top}]}
+      entering={FadeIn.delay(400)}>
+      <Pressable
+        onPress={() => {
+          navigation.goBack();
+        }}>
+        <Image
+          source={require('../../assets/chevron.png')}
+          style={styles.chevron}
+        />
+      </Pressable>
+      <Pressable
+        onPress={() => {
+          console.log('LIKE');
+        }}>
+        <Image source={require('../../assets/like.png')} style={styles.chevron} />
+      </Pressable>
+    </Animated.View>
   );
 };
 
+export default Header;
+
 const styles = StyleSheet.create({
   container: {
-
-    flexDirection:'row',
-    alignItems: 'center',
-
-
+    position: 'absolute',
+    left: 20,
+    right: 20,
+    zIndex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  leftContainer: {
-    flex: 1,
-    alignItems:'flex-start',
-  },
-  rigthContainer: {
-    flex: 1,
-    alignItems:'flex-end',
-  },
-  //title: font.midium,
-  title:{
-    fontSize: 20,
-    color:colors.colorA,
-    fontWeight:'bold',
-    fontFamily:'Cochin',
-  },
-  image:{
-    width:90,
-    height:90,
+  chevron: {
+    width: 44,
+    height: 44,
   },
 });
-
-export default Header;

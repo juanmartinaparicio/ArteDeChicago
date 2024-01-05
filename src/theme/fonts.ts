@@ -1,6 +1,6 @@
 import colors from './colors';
 
-const font = {
+const fonts = {
     big: {fontSize: 30,
         color:colors.colorA,
         fontWeight:'bold'},
@@ -12,5 +12,5 @@ const font = {
         fontWeight:'bold'},
   };
 
-  export default font;
+  export default fonts;
 

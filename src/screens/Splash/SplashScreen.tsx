@@ -1,11 +1,15 @@
-import { View, Text } from 'react-native';
+import { Text, Button } from 'react-native';
 import React from 'react';
 
-const SplashScreen = () => {
+const SplashScreen : React.FC<{navigation: any}> = ({navigation}) => {
   return (
-    <View>
+    <>
       <Text>SplashScreen</Text>
-    </View>
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Home')}
+        />
+    </>
   );
 };
 
